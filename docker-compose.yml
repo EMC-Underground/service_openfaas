@@ -35,7 +35,7 @@ services:
                 constraints:
                     - 'node.platform.os == linux'
             labels:
-                - "traefik.frontend.rule=Host:faas.container.se.lab.emc.com"
+                - "traefik.frontend.rule=Host:faas.${DNS_SUFFIX}"
                 - "traefik.port=8080"
                 - "traefik.docker.network=traefik-net"
                 - "traefik.enable=true"
@@ -153,7 +153,7 @@ services:
                 reservations:
                     memory: 200M
             labels:
-                - "traefik.frontend.rule=Host:prometheus.container.se.lab.emc.com"
+                - "traefik.frontend.rule=Host:prometheus.${DNS_SUFFIX}"
                 - "traefik.port=9090"
                 - "traefik.docker.network=traefik-net"
                 - "traefik.enable=true"
@@ -184,7 +184,7 @@ services:
                     - 'node.role == manager'
                     - 'node.platform.os == linux'
             labels:
-                - "traefik.frontend.rule=Host:alertmanager.container.se.lab.emc.com"
+                - "traefik.frontend.rule=Host:alertmanager.${DNS_SUFFIX}"
                 - "traefik.port=9093"
                 - "traefik.enable=true"
                 - "traefik.docker.network=traefik-net"
