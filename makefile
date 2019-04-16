@@ -1,18 +1,16 @@
 all: check-vars create-secrets build
 user_exists = $(shell docker secret inspect basic-auth-user >/dev/null 2>&1 && echo $$?)
 password_exists = $(shell docker secret inspect basic-auth-password >/dev/null 2>&1 && echo $$?)
+network_exists = $(shell docker network inspect traefik-net >/dev/null 2>&1 && echo $$?)
 
 check-vars:
 ifndef DNS_SUFFIX
 	$(error env var DNS_SUFFIX is not set)
 endif
 
-check-network:
-	@docker network inspect traefik-net &> /dev/null && ([ $$? -eq 0 ] && export NETWORK_EXISTS="true") || export NETWORK_EXISTS="false"
-
-build-network: check-network
-ifndef NETWORK_EXISTS
-	@-docker network create --driver=overlay traefik-net
+build-network:
+ifeq (echo $(network_exists), 1)
+	@docker network create --driver=overlay traefik-net
 endif
 
 check-secrets:
