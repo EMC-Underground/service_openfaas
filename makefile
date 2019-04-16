@@ -22,10 +22,10 @@ ifndef FAAS_PASSWORD
 endif
 
 create-secrets: check-secrets
-ifeq (echo $(user_exists), 0)
+ifeq (echo $(user_exists), 1)
 	@echo ${FAAS_USERNAME} | docker secret create basic-auth-user -
 endif
-ifeq (echo $(password_exists), 0)
+ifeq (echo $(password_exists), 1)
 	@echo ${FAAS_PASSWORD} | docker secret create basic-auth-password -
 endif
 
