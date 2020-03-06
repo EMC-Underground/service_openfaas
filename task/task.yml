@@ -1,16 +1,26 @@
 ---
 resources:
-  - name: resource-tutorial
+  - name: service-openfaas-repo
     type: git
     source:
       uri: https://github.com/EMC-Underground/service_openfaas.git
       branch: master
 
-#params:
-#  DNS_SUFFIX: ((dnssuffix))
-#  DOCKER_HOST: ((dockerhost))
-
-#inputs:
-#  - name: openfaas
-
+jobs:
+  - name: job
+    public: true
+    plan:
+      - get: service-openfaas-repo
+        trigger: true
+      - task: list-files
+        config:
+          inputs:
+            - name: service_openfaas
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: { repository: busybox }
+          run:
+            path: ls
+            args: ["-la", "./concourse-docs-git"]
 
