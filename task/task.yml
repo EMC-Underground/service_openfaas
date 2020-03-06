@@ -29,23 +29,3 @@ jobs:
             path: echo
             args: ["Hello, world!"]
 
-
-
-
-jobs:
-  - name: job-demo
-    public: true
-    plan:
-      - get: resource-tutorial
-        trigger: true
-      - task: show-ansible-version
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: bsoper/alpine-ansible
-              tag: latest
-          run:
-            path: ash
-            args: ["ansible", "--version"]
