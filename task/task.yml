@@ -13,7 +13,6 @@ resources:
 #inputs:
 #  - name: openfaas
 
----
 jobs:
   - name: job
     public: true
