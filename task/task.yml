@@ -1,0 +1,35 @@
+---
+platform: linux
+
+resources:
+  - name: resource-tutorial
+    type: git
+    source:
+      uri: https://github.com/EMC-Underground/service_openfaas.git
+      branch: master
+
+image_resource:
+  type: docker-image
+  source:
+    repository: bsoper/alpine-ansible
+    tag: latest
+
+#params:
+#  DNS_SUFFIX: ((dnssuffix))
+#  DOCKER_HOST: ((dockerhost))
+
+#inputs:
+#  - name: openfaas
+
+jobs:
+- name: job-demo
+  plan:
+  - get: resource-tutorial
+    trigger: true
+
+run:
+  path: ash
+  args:
+  - -c
+  - |
+    ansible --version
