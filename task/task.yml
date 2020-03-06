@@ -13,19 +13,4 @@ resources:
 #inputs:
 #  - name: openfaas
 
-jobs:
-  - name: job
-    public: true
-    plan:
-      - task: simple-task
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: bsoper/alpine-ansible
-              tag: latest
-          run:
-            path: echo
-            args: ["Hello, world!"]
 
