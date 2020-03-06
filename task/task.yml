@@ -18,8 +18,7 @@ jobs:
     public: true
     plan:
       - get: resource-tutorial
-      trigger: true
-
+        trigger: true
       - task: show-ansible-version
         config:
           platform: linux
