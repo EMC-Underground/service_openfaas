@@ -26,10 +26,11 @@ jobs:
   plan:
   - get: resource-tutorial
     trigger: true
-
-run:
-  path: ash
-  args:
-  - -c
-  - |
-    ansible --version
+  - task: show ansible version
+    config:
+      run:
+        path: ash
+        args:
+        - -c
+        - |
+          ansible --version
