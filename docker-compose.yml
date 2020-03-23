@@ -34,11 +34,12 @@ services:
             placement:
                 constraints:
                     - 'node.platform.os == linux'
+
             labels:
-                - "traefik.frontend.rule=Host:faas.${DNS_SUFFIX}"
-                - "traefik.port=8080"
-                - "traefik.docker.network=traefik-net"
                 - "traefik.enable=true"
+                - "traefik.http.routers.faas.entrypoints=http"
+                - "traefik.http.routers.faas.rule=Host(`faas.${DNS_SUFFIX`)"
+                - "traefik.http.services.faas.loadbalancer.server.port=8080"
 
         secrets:
             - basic-auth-user
@@ -152,12 +153,12 @@ services:
                     memory: 500M
                 reservations:
                     memory: 200M
-            labels:
-                - "traefik.frontend.rule=Host:prometheus.${DNS_SUFFIX}"
-                - "traefik.port=9090"
-                - "traefik.docker.network=traefik-net"
-                - "traefik.enable=true"
 
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.prometheus.entrypoints=http"
+                - "traefik.http.routers.prometheus.rule=Host(`prometheus.${DNS_SUFFIX`)"
+                - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
 
     alertmanager:
         image: prom/alertmanager:v0.15.0
@@ -184,10 +185,11 @@ services:
                     - 'node.role == manager'
                     - 'node.platform.os == linux'
             labels:
-                - "traefik.frontend.rule=Host:alertmanager.${DNS_SUFFIX}"
-                - "traefik.port=9093"
                 - "traefik.enable=true"
-                - "traefik.docker.network=traefik-net"
+                - "traefik.http.routers.alertmanager.entrypoints=http"
+                - "traefik.http.routers.alertmanager.rule=Host(`alertmanager.${DNS_SUFFIX`)"
+                - "traefik.http.services.alertmanager.loadbalancer.server.port=9093"
+
         configs:
             - source: alertmanager_config
               target: /alertmanager.yml
