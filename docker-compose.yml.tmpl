@@ -208,10 +208,7 @@ configs:
 
 networks:
     functions:
-        driver: overlay
-        attachable: true
-        labels:
-          - "openfaas=true"
+      external: true
     traefik-net:
       external: true
 
