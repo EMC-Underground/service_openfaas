@@ -18,7 +18,6 @@ jobs:
   public: true
   plan:
   - get: faas_repo
-  - get: daily
   - task: update-faas
     params:
       DNS_SUFFIX: ((dnssuffix))
