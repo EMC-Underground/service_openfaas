@@ -4,7 +4,7 @@ services:
     gateway:
         image: openfaas/gateway:0.10.2
         networks:
-            - functions
+            - {{env['DOCKER_STACK']}}_functions
             - traefik-net
         environment:
             functions_provider_url: "http://faas-swarm:8080/"
@@ -52,7 +52,7 @@ services:
             - "/var/run/docker.sock:/var/run/docker.sock"
         image:  openfaas/faas-swarm:0.6.1
         networks:
-            - functions
+            - {{env['DOCKER_STACK']}}_functions
         environment:
             read_timeout:  "5m5s"       # set both here, and on your functions
             write_timeout: "5m5s"       # set both here, and on your functions
@@ -87,7 +87,7 @@ services:
         #     - 8222:8222
         command: "--store memory --cluster_id faas-cluster"
         networks:
-            - functions
+            - {{env['DOCKER_STACK']}}_functions
         deploy:
             resources:
                 limits:
@@ -101,7 +101,7 @@ services:
     queue-worker:
         image: openfaas/queue-worker:0.6.0
         networks:
-            - functions
+            - {{env['DOCKER_STACK']}}_functions
         environment:
             max_inflight: "1"
             ack_wait: "5m5s"    # Max duration of any async task / request
@@ -142,7 +142,7 @@ services:
           - '--config.file=/etc/prometheus/prometheus.yml'
         #   - '-storage.local.path=/prometheus'
         networks:
-            - functions
+            - {{env['DOCKER_STACK']}}_functions
             - traefik-net
         deploy:
             placement:
@@ -169,7 +169,7 @@ services:
             - '--config.file=/alertmanager.yml'
             - '--storage.path=/alertmanager'
         networks:
-            - functions
+            - {{env['DOCKER_STACK']}}_functions
             - traefik-net
         # Uncomment the following port mapping if you wish to expose the Prometheus
         # Alertmanager UI.
@@ -207,7 +207,7 @@ configs:
          file: ./prometheus/alertmanager.yml
 
 networks:
-    functions:
+    {{env['DOCKER_STACK']}}_functions:
       external: true
     traefik-net:
       external: true
