@@ -1,4 +1,5 @@
 version: "3.3"
+
 services:
     gateway:
         image: openfaas/gateway:0.10.2
@@ -37,9 +38,9 @@ services:
 
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.faas.entrypoints=http"
-                - "traefik.http.routers.faas.rule=Host(`faas.${DNS_SUFFIX`)"
-                - "traefik.http.services.faas.loadbalancer.server.port=8080"
+                - "traefik.http.routers.{{env['DOCKER_STACK']}}.entrypoints=http"
+                - "traefik.http.routers.{{env['DOCKER_STACK']}}.rule=Host(`{{env['DOCKER_STACK']}}.{{env['DNS_SUFFIX']}}`)"
+                - "traefik.http.services.{{env['DOCKER_STACK']}}.loadbalancer.server.port=8080"
 
         secrets:
             - basic-auth-user
@@ -156,9 +157,9 @@ services:
 
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.prometheus.entrypoints=http"
-                - "traefik.http.routers.prometheus.rule=Host(`prometheus.${DNS_SUFFIX`)"
-                - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+                - "traefik.http.routers.{{env['DOCKER_STACK']}}-prometheus.entrypoints=http"
+                - "traefik.http.routers.{{env['DOCKER_STACK']}}-prometheus.rule=Host(`{{env['DOCKER_STACK']}}-prometheus.{{env['DNS_SUFFIX']}}`)"
+                - "traefik.http.services.{{env['DOCKER_STACK']}}-prometheus.loadbalancer.server.port=9090"
 
     alertmanager:
         image: prom/alertmanager:v0.15.0
@@ -186,9 +187,9 @@ services:
                     - 'node.platform.os == linux'
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.alertmanager.entrypoints=http"
-                - "traefik.http.routers.alertmanager.rule=Host(`alertmanager.${DNS_SUFFIX`)"
-                - "traefik.http.services.alertmanager.loadbalancer.server.port=9093"
+                - "traefik.http.routers.{{env['DOCKER_STACK']}}-alertmanager.entrypoints=http"
+                - "traefik.http.routers.{{env['DOCKER_STACK']}}-alertmanager.rule=Host(`{{env['DOCKER_STACK']}}-alertmanager.{{env['DNS_SUFFIX']}}`)"
+                - "traefik.http.services.{{env['DOCKER_STACK']}}-alertmanager.loadbalancer.server.port=9093"
 
         configs:
             - source: alertmanager_config
