@@ -6,13 +6,6 @@ resources:
     uri: https://github.com/EMC-Underground/service_openfaas.git
     branch: dev
 
-- name: daily
-  type: time
-  source:
-    location: America/Los_Angeles
-    start: 5:00 AM
-    stop: 6:00 AM
-
 jobs:
 - name: job_deploy_faas
   public: true
